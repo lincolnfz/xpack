@@ -4,7 +4,11 @@
 #include<sys/stat.h>
 
 
-#pragma comment (lib , "zdll.lib")
+#ifdef _DEBUG
+#pragma comment (lib , "zlib_d.lib")
+#else
+#pragma comment (lib , "zlib.lib")
+#endif // DEBUG
 
 const char zip_head[]={"xpack_2"};
 
@@ -157,7 +161,7 @@ BOOL CZFile::WritePackFile(const TCHAR *zipfile)
 			}
 
 			struct stat fdesc;
-			if( fstat( file->_file , &fdesc ) == 0 )
+			if( fstat( fileno(file) , &fdesc ) == 0 )
 			{
 				//文件大小
 				it->item.filelen = fdesc.st_size;
